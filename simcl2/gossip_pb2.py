@@ -25,7 +25,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import empty_pb2 as google_dot_protobuf_dot_empty__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cgossip.proto\x12\x06gossip\x1a\x1bgoogle/protobuf/empty.proto\"Z\n\rGossipMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x11\n\tsender_id\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\x12\x12\n\nlatency_ms\x18\x04 \x01(\x02\"!\n\x0e\x41\x63knowledgment\x12\x0f\n\x07\x64\x65tails\x18\x01 \x01(\t2\x90\x01\n\rGossipService\x12<\n\x0bSendMessage\x12\x15.gossip.GossipMessage\x1a\x16.gossip.Acknowledgment\x12\x41\n\x0fUpdateNeighbors\x12\x16.google.protobuf.Empty\x1a\x16.gossip.Acknowledgmentb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cgossip.proto\x12\x06gossip\x1a\x1bgoogle/protobuf/empty.proto\"o\n\rGossipMessage\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x11\n\tsender_id\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\x12\x12\n\nlatency_ms\x18\x04 \x01(\x01\x12\x13\n\x0bround_count\x18\x05 \x01(\x05\"!\n\x0e\x41\x63knowledgment\x12\x0f\n\x07\x64\x65tails\x18\x01 \x01(\t2\x90\x01\n\rGossipService\x12<\n\x0bSendMessage\x12\x15.gossip.GossipMessage\x1a\x16.gossip.Acknowledgment\x12\x41\n\x0fUpdateNeighbors\x12\x16.google.protobuf.Empty\x1a\x16.gossip.Acknowledgmentb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -33,9 +33,9 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'gossip_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_GOSSIPMESSAGE']._serialized_start=53
-  _globals['_GOSSIPMESSAGE']._serialized_end=143
-  _globals['_ACKNOWLEDGMENT']._serialized_start=145
-  _globals['_ACKNOWLEDGMENT']._serialized_end=178
-  _globals['_GOSSIPSERVICE']._serialized_start=181
-  _globals['_GOSSIPSERVICE']._serialized_end=325
+  _globals['_GOSSIPMESSAGE']._serialized_end=164
+  _globals['_ACKNOWLEDGMENT']._serialized_start=166
+  _globals['_ACKNOWLEDGMENT']._serialized_end=199
+  _globals['_GOSSIPSERVICE']._serialized_start=202
+  _globals['_GOSSIPSERVICE']._serialized_end=346
 # @@protoc_insertion_point(module_scope)

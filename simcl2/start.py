@@ -1,3 +1,7 @@
+# ==============================================================================
+# start.py
+# ==============================================================================
+
 import grpc
 import argparse
 import gossip_pb2
@@ -15,14 +19,14 @@ def send_message_to_self(message):
 
     with grpc.insecure_channel(target) as channel:
         stub = gossip_pb2_grpc.GossipServiceStub(channel)
-        # print(f"Sending message to self ({host_ip}): '{message}'", flush=True)
         print(f"Sending message to self ({host_ip}): '{message}' with latency={target_latency} ms",
               flush=True)
         response = stub.SendMessage(gossip_pb2.GossipMessage(
             message=message,
             sender_id=host_ip,
             timestamp=time.time_ns(),
-            latency_ms=target_latency
+            latency_ms=target_latency,
+            round_count=0  # <-- ADDED
         ))
         print(f"Received acknowledgment: {response.details}", flush=True)
 
