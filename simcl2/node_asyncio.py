@@ -16,7 +16,19 @@ from google.protobuf.empty_pb2 import Empty
 
 
 # Define a constant for max concurrent outbound gRPC calls
-MAX_CONCURRENT_SENDS = 130
+# MAX_CONCURRENT_SENDS = 10 # v1
+# MAX_CONCURRENT_SENDS = 20 # v2
+# MAX_CONCURRENT_SENDS = 30 # v3
+# MAX_CONCURRENT_SENDS = 40 # v4
+# MAX_CONCURRENT_SENDS = 50 # v5
+# MAX_CONCURRENT_SENDS = 60 # v6
+# MAX_CONCURRENT_SENDS = 70 # v7
+# MAX_CONCURRENT_SENDS = 80 # v8
+# MAX_CONCURRENT_SENDS = 90 # v9
+# MAX_CONCURRENT_SENDS = 100 # v10
+# MAX_CONCURRENT_SENDS = 110 # # v11
+# MAX_CONCURRENT_SENDS = 120 # v12
+MAX_CONCURRENT_SENDS = 130 # v13
 
 
 class Node(gossip_pb2_grpc.GossipServiceServicer):

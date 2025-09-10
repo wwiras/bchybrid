@@ -30,6 +30,6 @@ RUN pip3 install --no-cache-dir grpcio grpcio-tools kubernetes
 EXPOSE 5050
 
 # Command to run the application
-#CMD ["python3", "node_asyncio.py"]
+CMD ["python3", "node_asyncio.py"]
 #CMD ["python3", "node_asyncio2.py"]
-CMD ["python3", "node_asyncio3.py"]
+# CMD ["python3", "node_asyncio3.py"]
