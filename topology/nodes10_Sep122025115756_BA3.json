@@ -1,0 +1,147 @@
+{
+    "directed": false,
+    "multigraph": false,
+    "graph": {},
+    "nodes": [
+        {
+            "id": "gossip-0"
+        },
+        {
+            "id": "gossip-1"
+        },
+        {
+            "id": "gossip-2"
+        },
+        {
+            "id": "gossip-3"
+        },
+        {
+            "id": "gossip-4"
+        },
+        {
+            "id": "gossip-5"
+        },
+        {
+            "id": "gossip-6"
+        },
+        {
+            "id": "gossip-7"
+        },
+        {
+            "id": "gossip-8"
+        },
+        {
+            "id": "gossip-9"
+        }
+    ],
+    "edges": [
+        {
+            "weight": 21,
+            "source": "gossip-0",
+            "target": "gossip-1"
+        },
+        {
+            "weight": 34,
+            "source": "gossip-0",
+            "target": "gossip-2"
+        },
+        {
+            "weight": 10,
+            "source": "gossip-0",
+            "target": "gossip-3"
+        },
+        {
+            "weight": 37,
+            "source": "gossip-0",
+            "target": "gossip-4"
+        },
+        {
+            "weight": 28,
+            "source": "gossip-0",
+            "target": "gossip-5"
+        },
+        {
+            "weight": 16,
+            "source": "gossip-0",
+            "target": "gossip-6"
+        },
+        {
+            "weight": 12,
+            "source": "gossip-0",
+            "target": "gossip-7"
+        },
+        {
+            "weight": 33,
+            "source": "gossip-0",
+            "target": "gossip-8"
+        },
+        {
+            "weight": 31,
+            "source": "gossip-0",
+            "target": "gossip-9"
+        },
+        {
+            "weight": 26,
+            "source": "gossip-1",
+            "target": "gossip-4"
+        },
+        {
+            "weight": 37,
+            "source": "gossip-2",
+            "target": "gossip-4"
+        },
+        {
+            "weight": 23,
+            "source": "gossip-3",
+            "target": "gossip-5"
+        },
+        {
+            "weight": 16,
+            "source": "gossip-4",
+            "target": "gossip-5"
+        },
+        {
+            "weight": 33,
+            "source": "gossip-4",
+            "target": "gossip-6"
+        },
+        {
+            "weight": 10,
+            "source": "gossip-4",
+            "target": "gossip-7"
+        },
+        {
+            "weight": 24,
+            "source": "gossip-5",
+            "target": "gossip-6"
+        },
+        {
+            "weight": 19,
+            "source": "gossip-5",
+            "target": "gossip-8"
+        },
+        {
+            "weight": 26,
+            "source": "gossip-6",
+            "target": "gossip-7"
+        },
+        {
+            "weight": 23,
+            "source": "gossip-6",
+            "target": "gossip-9"
+        },
+        {
+            "weight": 27,
+            "source": "gossip-7",
+            "target": "gossip-8"
+        },
+        {
+            "weight": 39,
+            "source": "gossip-8",
+            "target": "gossip-9"
+        }
+    ],
+    "weight_average": 25.0,
+    "total_edges": 21,
+    "total_nodes": 10
+}
