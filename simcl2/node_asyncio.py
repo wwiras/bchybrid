@@ -28,7 +28,8 @@ from google.protobuf.empty_pb2 import Empty
 # MAX_CONCURRENT_SENDS = 100 # v10
 # MAX_CONCURRENT_SENDS = 110 # # v11
 # MAX_CONCURRENT_SENDS = 120 # v12
-MAX_CONCURRENT_SENDS = 130 # v13
+# MAX_CONCURRENT_SENDS = 130 # v13
+MAX_CONCURRENT_SENDS = 125 # v14
 
 
 class Node(gossip_pb2_grpc.GossipServiceServicer):
