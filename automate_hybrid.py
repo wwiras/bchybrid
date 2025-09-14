@@ -11,12 +11,12 @@ from datetime import datetime, timedelta, timezone
 
 
 class Test:
-    def __init__(self, num_test):
+    def __init__(self, num_test, rmax): # <-- MODIFIED
         # Getting test details
         self.num_tests = num_test
-        # print(f"self.num_tests = {self.num_tests}", flush=True)
+        self.rmax = rmax # <-- ADDED
         self.num_nodes = 0
-        self.gossip_delay = 5.0  # Default 2s
+        self.gossip_delay = 5.0
 
     def run_command(self, command, full_path=None, suppress_output=False):
         """
@@ -115,12 +115,12 @@ class Test:
         malaysia_time = utc_time + malaysia_offset
         return malaysia_time
 
-    def access_pod_and_initiate_gossip(self, pod_name, replicas, unique_id, iteration):
+    def access_pod_and_initiate_gossip(self, pod_name, replicas, unique_id, iteration, rmax): # <-- ADDED
         """
         Access the pod's shell, initiate gossip, and handle the response.
         """
 
-        time.sleep(self.gossip_delay)  # Use configurable delay
+        time.sleep(self.gossip_delay)
 
         try:
             start_time = self._get_malaysian_time().strftime('%Y/%m/%d %H:%M:%S')
@@ -135,10 +135,11 @@ class Test:
             print(json.dumps(start_log), flush=True)
 
             session = subprocess.Popen(['kubectl', 'exec', '-it', pod_name, '--request-timeout=3000',
-                                       '--', 'sh'], stdin=subprocess.PIPE,
-                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                                         '--', 'sh'], stdin=subprocess.PIPE,
+                                         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
-            session.stdin.write(f'python3 start.py --message {message}\n')
+            # <-- MODIFIED to include the --rmax argument
+            session.stdin.write(f'python3 start.py --message {message} --rmax {rmax}\n')
             session.stdin.flush()
 
             end_time = time.time() + 3000
@@ -162,9 +163,9 @@ class Test:
                 if session.poll() is not None:
                     print("Session ended before completion.", flush=True)
                     break
-            else:
-                print("Timeout waiting for gossip to complete.", flush=True)
-                return False
+                else:
+                    print("Timeout waiting for gossip to complete.", flush=True)
+                    return False
 
             session.stdin.write('exit\n')
             session.stdin.flush()
@@ -185,21 +186,20 @@ class Test:
 
 if __name__ == '__main__':
     # Parse arguments
-    parser = argparse.ArgumentParser(description="Usage: python automate.py --num_tests <number_of_tests>")
+    parser = argparse.ArgumentParser(description="Usage: python automate.py --num_tests <number_of_tests> --rmax <rmax_value>")
     parser.add_argument('--num_tests', required=True, type=int, help="Total number of tests to do")
+    parser.add_argument('--rmax', required=True, type=int, help="Rmax value for the hybrid protocol.") # <-- ADDED
     args = parser.parse_args()
 
     # Check num test validity
-    if args.num_tests >= 0 or not args.num_tests.isdigit():
-        test = Test(int(args.num_tests))
-        print(f"self.num_tests={test.num_tests}", flush=True)
+    if args.num_tests > 0: # <-- MODIFIED for cleaner check
+        test = Test(int(args.num_tests), int(args.rmax)) # <-- MODIFIED
     else:
-        print("Error: totalNodes must be a valid integer.", flush=True)
+        print("Error: totalNodes must be a valid integer greater than 0.", flush=True)
         sys.exit(1)
 
     # Get number of nodes from kubernetes cluster
     test.num_nodes = test.get_num_nodes()
-    # print(f"test.num_nodes={test.num_nodes}", flush=True)
     if test.num_nodes == 0:
         print("Error: total number of nodes cannot be determined or kubernetes is not ready..", flush=True)
         sys.exit(1)
@@ -212,7 +212,7 @@ if __name__ == '__main__':
         pod_name = test.select_random_pod()
         for nt in range(1,test.num_tests+1):
             print(f"Selected pod: {pod_name}", flush=True)
-            if test.access_pod_and_initiate_gossip(pod_name, int(test.num_nodes), unique_id, nt):
+            if test.access_pod_and_initiate_gossip(pod_name, int(test.num_nodes), unique_id, nt, test.rmax): # <-- ADDED
                 print(f"Test {nt} complete.", flush=True)
             else:
                 print(f"Test {nt} failed.", flush=True)
