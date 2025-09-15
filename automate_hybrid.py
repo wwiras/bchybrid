@@ -145,6 +145,7 @@ class Test:
             end_time = time.time() + 3000
             while time.time() < end_time:
                 reads = [session.stdout.fileno()]
+                print(f"reads={reads}", flush=True)
                 ready = select.select(reads, [], [], 5)[0]
                 if ready:
                     output = session.stdout.readline()
