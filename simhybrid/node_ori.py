@@ -10,9 +10,7 @@ import time
 import sqlite3
 from google.protobuf.empty_pb2 import Empty
 
-# Define a constant for max concurrent outbound gRPC calls
 MAX_CONCURRENT_SENDS = 125
-
 
 class Node(gossip_pb2_grpc.GossipServiceServicer):
 
