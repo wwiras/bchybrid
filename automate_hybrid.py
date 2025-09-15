@@ -130,7 +130,7 @@ class Test:
                 'pod_name': pod_name,
                 'message': message,
                 'start_time': start_time,
-                'details': f"Gossip propagation started for message: {message}"
+                'details': f"Gossip propagation started for message: {message} and Rmax: {rmax}"
             }
             print(json.dumps(start_log), flush=True)
 
