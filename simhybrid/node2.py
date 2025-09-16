@@ -69,27 +69,26 @@ class Node(gossip_pb2_grpc.GossipServiceServicer):
             self.received_message_ids.add(message)
             log_message = (f"Gossip initiated by {self.hostname} ({self.host}) at "
                            f"{time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(received_timestamp / 1e9))}")
-            self._log_event(message, sender_id, received_timestamp, None, None, 'initiate', log_message, 0, incoming_max_rounds, 'gossip') # <-- MODIFIED
+            self._log_event(message, sender_id, received_timestamp, None, None, 'initiate', log_message, 0, incoming_max_rounds)
             await self.gossip_message(message, sender_id, 0, incoming_max_rounds)
             return gossip_pb2.Acknowledgment(details=f"Done propagate! {self.host} received: '{message}'")
         
         elif message in self.received_message_ids:
             log_message = f"{self.host} ignoring duplicate message: {message} from {sender_id}"
-            self._log_event(message, sender_id, received_timestamp, None, incoming_link_latency, 'duplicate', log_message, incoming_round_count, incoming_max_rounds, 'gossip') # <-- MODIFIED
+            self._log_event(message, sender_id, received_timestamp, None, incoming_link_latency, 'duplicate', log_message, incoming_round_count, incoming_max_rounds)
             return gossip_pb2.Acknowledgment(details=f"Duplicate message ignored by ({self.host})")
         else:
             self.received_message_ids.add(message)
             propagation_time = (received_timestamp - request.timestamp) / 1e6
             log_message = (f"({self.hostname}({self.host}) received: '{message}' from {sender_id}"
                            f" in {propagation_time:.2f} ms. Incoming link latency: {incoming_link_latency:.2f} ms")
-            
+            self._log_event(message, sender_id, received_timestamp, propagation_time, incoming_link_latency, 'received', log_message, incoming_round_count, incoming_max_rounds)
+
             new_round_count = incoming_round_count + 1
             
             if new_round_count < incoming_max_rounds:
-                self._log_event(message, sender_id, received_timestamp, propagation_time, incoming_link_latency, 'received', log_message, incoming_round_count, incoming_max_rounds, 'gossip') # <-- ADDED and MODIFIED
                 await self.gossip_message(message, sender_id, new_round_count, incoming_max_rounds)
             else:
-                self._log_event(message, sender_id, received_timestamp, propagation_time, incoming_link_latency, 'received', log_message, incoming_round_count, incoming_max_rounds, 'cluster') # <-- ADDED and MODIFIED
                 await self.cluster_message(message, sender_id, new_round_count, incoming_max_rounds)
             
             return gossip_pb2.Acknowledgment(details=f"{self.host} received: '{message}'")
@@ -137,7 +136,7 @@ class Node(gossip_pb2_grpc.GossipServiceServicer):
         await asyncio.gather(*tasks, return_exceptions=True)
 
     def _log_event(self, message, sender_id, received_timestamp, propagation_time, incoming_link_latency, event_type,
-                   log_message, round_count, max_rounds, distribution_type): # <-- MODIFIED
+                   log_message, round_count, max_rounds):
         event_data = {
             'message': message,
             'sender_id': sender_id,
@@ -147,7 +146,6 @@ class Node(gossip_pb2_grpc.GossipServiceServicer):
             'incoming_link_latency': incoming_link_latency,
             'round_count': round_count,
             'max_rounds': max_rounds,
-            'distribution': distribution_type, # <-- ADDED
             'event_type': event_type,
             'detail': log_message
         }
