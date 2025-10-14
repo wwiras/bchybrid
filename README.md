@@ -21,3 +21,8 @@ $ python -m grpc_tools.protoc -I. --python_out=. --pyi_out=. --grpc_python_out=.
 $ docker buildx build --platform linux/amd64 -t wwiras/simsba:v1 --push .
 ```
 
+### How to remove all unused images in MacOS/Linux Docker command
+```python
+$ docker image prune -a
+```
+
