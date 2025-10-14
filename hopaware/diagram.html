@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hop-Aware Gossip: Intelligent Duplication Reduction</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .node-label {
+            font-size: 12px;
+            font-weight: bold;
+            fill: #ffffff;
+            pointer-events: none;
+        }
+        .panel-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .explanation-box {
+            background: #ffffff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .memory-table {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        .hop-badge {
+            background: #3b82f6;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="max-w-7xl mx-auto p-6 bg-white rounded-2xl shadow-2xl">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-4 text-center border-b pb-4">
+        🚀 Hop-Aware Gossip Protocol
+    </h1>
+    <p class="text-gray-600 text-center mb-8 text-lg">
+        Intelligent Message Propagation using Hop-Count Based Duplication Learning
+    </p>
+
+    <!-- Protocol Overview -->
+    <div class="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
+        <h2 class="text-2xl font-bold text-blue-800 mb-4">Protocol Concept</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="text-center p-4 bg-white rounded-lg shadow">
+                <div class="hop-badge inline-block mb-2">h=0 → h=n+1</div>
+                <h3 class="font-bold text-blue-700">Hop-Aware Propagation</h3>
+                <p class="text-sm text-gray-600">Track message propagation through hop counts to identify duplication patterns</p>
+            </div>
+            <div class="text-center p-4 bg-white rounded-lg shadow">
+                <div class="text-xl mb-2">🎯</div>
+                <h3 class="font-bold text-green-700">Local Learning</h3>
+                <p class="text-sm text-gray-600">Nodes learn which neighbors cause duplicates at specific hop levels</p>
+            </div>
+            <div class="text-center p-4 bg-white rounded-lg shadow">
+                <div class="text-xl mb-2">⚡</div>
+                <h3 class="font-bold text-purple-700">Adaptive Forwarding</h3>
+                <p class="text-sm text-gray-600">Dynamic fanout adjustment based on learned duplication patterns</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Visualization Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Stage 1: Initial Propagation & Duplication Detection -->
+        <div class="flex flex-col">
+            <div class="panel-title bg-red-100 text-red-700 p-3 rounded-t-lg">STAGE 1: Duplication Detection (Round t)</div>
+            <div class="border-2 border-red-200 rounded-b-lg p-4 bg-white">
+                <svg viewBox="0 0 320 320" class="w-full h-64">
+                    <!-- Nodes -->
+                    <g class="nodes">
+                        <circle cx="160" cy="60" r="25" fill="#1e40af" />
+                        <circle cx="80" cy="150" r="20" fill="#ef4444" />
+                        <circle cx="160" cy="150" r="20" fill="#10b981" />
+                        <circle cx="240" cy="150" r="20" fill="#10b981" />
+                        <circle cx="120" cy="240" r="15" fill="#6b7280" />
+                        <circle cx="200" cy="240" r="15" fill="#6b7280" />
+                    </g>
+                    
+                    <!-- Propagation Paths -->
+                    <g class="edges">
+                        <!-- Duplicate path -->
+                        <line x1="160" y1="85" x2="80" y2="130" stroke="#ef4444" stroke-width="4" marker-end="url(#arrow-red)" />
+                        <!-- Good paths -->
+                        <line x1="160" y1="85" x2="160" y2="130" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+                        <line x1="160" y1="85" x2="240" y2="130" stroke="#10b981" stroke-width="3" marker-end="url(#arrow-green)" />
+                        <!-- Hidden duplicate path -->
+                        <line x1="120" y1="240" x2="80" y2="170" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,2" />
+                    </g>
+                    
+                    <!-- Labels -->
+                    <text x="160" y="60" class="node-label" text-anchor="middle">N1</text>
+                    <text x="80" y="150" class="node-label" text-anchor="middle">N2</text>
+                    <text x="160" y="150" class="node-label" text-anchor="middle">N3</text>
+                    <text x="240" y="150" class="node-label" text-anchor="middle">N4</text>
+                    
+                    <!-- Annotations -->
+                    <text x="160" y="40" fill="#1e40af" font-weight="bold" font-size="12" text-anchor="middle">Source Node</text>
+                    <text x="160" y="100" fill="#ef4444" font-weight="bold" font-size="14" text-anchor="middle">Send k=3, h=1</text>
+                    
+                    <!-- Duplication Alert -->
+                    <g transform="translate(70, 130)">
+                        <rect x="0" y="0" width="60" height="25" fill="#fef2f2" stroke="#ef4444" rx="3" />
+                        <text x="30" y="15" fill="#dc2626" font-size="10" font-weight="bold" text-anchor="middle">DUPLICATE!</text>
+                    </g>
+                </svg>
+
+                <div class="memory-table">
+                    <h4 class="font-bold text-gray-700 mb-2">📊 Duplication Detection Log:</h4>
+                    <div class="text-sm space-y-1">
+                        <div class="flex justify-between items-center p-2 bg-red-50 rounded">
+                            <span>Neighbor: <strong>N2</strong></span>
+                            <span class="hop-badge bg-red-500">h=1</span>
+                            <span class="text-red-600 font-bold">Score: 0.3</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-green-50 rounded">
+                            <span>Neighbor: <strong>N3</strong></span>
+                            <span class="hop-badge bg-green-500">h=1</span>
+                            <span class="text-green-600 font-bold">Score: 0.9</span>
+                        </div>
+                        <div class="flex justify-between items-center p-2 bg-green-50 rounded">
+                            <span>Neighbor: <strong>N4</strong></span>
+                            <span class="hop-badge bg-green-500">h=1</span>
+                            <span class="text-green-600 font-bold">Score: 0.8</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 2: Learning & Memory Building -->
+        <div class="flex flex-col">
+            <div class="panel-title bg-yellow-100 text-yellow-700 p-3 rounded-t-lg">STAGE 2: Learning & Memory (Local View)</div>
+            <div class="border-2 border-yellow-200 rounded-b-lg p-4 bg-white">
+                <svg viewBox="0 0 320 320" class="w-full h-64">
+                    <!-- Central Learning Node -->
+                    <circle cx="160" cy="160" r="40" fill="#f59e0b" />
+                    <text x="160" y="160" class="node-label" text-anchor="middle">N1</text>
+                    <text x="160" y="120" fill="#d97706" font-weight="bold" font-size="14" text-anchor="middle">Learning Node</text>
+                    
+                    <!-- Memory Storage Visualization -->
+                    <rect x="80" y="60" width="160" height="120" fill="#fef3c7" stroke="#d97706" stroke-width="2" rx="10" />
+                    <text x="160" y="80" fill="#92400e" font-weight="bold" font-size="16" text-anchor="middle">Local Memory Store</text>
+                    
+                    <!-- Memory Entries -->
+                    <g transform="translate(100, 100)">
+                        <rect width="120" height="60" fill="#fef9c3" stroke="#f59e0b" rx="5" />
+                        <text x="60" y="20" fill="#b45309" font-size="12" font-weight="bold" text-anchor="middle">Duplication Patterns</text>
+                        <text x="60" y="35" fill="#dc2626" font-size="10" text-anchor="middle">N2 → h=1 → Score: 0.3</text>
+                        <text x="60" y="45" fill="#16a34a" font-size="10" text-anchor="middle">N3 → h=1 → Score: 0.9</text>
+                        <text x="60" y="55" fill="#16a34a" font-size="10" text-anchor="middle">N4 → h=1 → Score: 0.8</text>
+                    </g>
+                    
+                    <!-- Learning Indicators -->
+                    <g transform="translate(140, 200)">
+                        <circle cx="0" cy="0" r="8" fill="#10b981" opacity="0.6">
+                            <animate attributeName="r" from="8" to="15" dur="1s" repeatCount="indefinite" />
+                            <animate attributeName="opacity" from="0.6" to="0" dur="1s" repeatCount="indefinite" />
+                        </circle>
+                    </g>
+                    <text x="160" y="230" fill="#059669" font-size="12" font-weight="bold" text-anchor="middle">Active Learning</text>
+                </svg>
+
+                <div class="memory-table">
+                    <h4 class="font-bold text-gray-700 mb-2">🎯 Learning Algorithm:</h4>
+                    <div class="text-xs space-y-2">
+                        <div class="p-2 bg-blue-50 rounded">
+                            <strong>Rule:</strong> IF duplicate_at_h ≥ current_h THEN avoid_neighbor
+                        </div>
+                        <div class="p-2 bg-green-50 rounded">
+                            <strong>Scoring:</strong> score = score × 0.7 (on duplicate)<br>
+                            <strong>Recovery:</strong> score = min(1.0, score × 1.1) (on success)
+                        </div>
+                        <div class="p-2 bg-purple-50 rounded">
+                            <strong>Memory:</strong> Store only problematic neighbors<br>
+                            <strong>Size:</strong> O(d) where d ≪ n
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stage 3: Adaptive Forwarding -->
+        <div class="flex flex-col">
+            <div class="panel-title bg-green-100 text-green-700 p-3 rounded-t-lg">STAGE 3: Optimized Forwarding (Round t+1)</div>
+            <div class="border-2 border-green-200 rounded-b-lg p-4 bg-white">
+                <svg viewBox="0 0 320 320" class="w-full h-64">
+                    <!-- Nodes -->
+                    <g class="nodes">
+                        <circle cx="160" cy="60" r="25" fill="#1e40af" />
+                        <circle cx="80" cy="150" r="20" fill="#9ca3af" />
+                        <circle cx="160" cy="150" r="20" fill="#10b981" />
+                        <circle cx="240" cy="150" r="20" fill="#10b981" />
+                        <circle cx="120" cy="240" r="15" fill="#10b981" />
+                        <circle cx="200" cy="240" r="15" fill="#10b981" />
+                    </g>
+                    
+                    <!-- Optimized Paths -->
+                    <g class="edges">
+                        <!-- Pruned path (faded) -->
+                        <line x1="160" y1="85" x2="80" y2="130" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4,2" />
+                        <!-- Optimized paths -->
+                        <line x1="160" y1="85" x2="160" y2="130" stroke="#10b981" stroke-width="4" marker-end="url(#arrow-green-bold)" />
+                        <line x1="160" y1="85" x2="240" y2="130" stroke="#10b981" stroke-width="4" marker-end="url(#arrow-green-bold)" />
+                    </g>
+                    
+                    <!-- Labels -->
+                    <text x="160" y="60" class="node-label" text-anchor="middle">N1</text>
+                    <text x="80" y="150" class="node-label" text-anchor="middle">N2</text>
+                    <text x="160" y="150" class="node-label" text-anchor="middle">N3</text>
+                    <text x="240" y="150" class="node-label" text-anchor="middle">N4</text>
+                    
+                    <!-- Optimization Indicators -->
+                    <text x="160" y="100" fill="#10b981" font-weight="bold" font-size="14" text-anchor="middle">Send k=2, h=1</text>
+                    
+                    <g transform="translate(70, 170)">
+                        <rect x="0" y="0" width="80" height="25" fill="#d1fae5" stroke="#10b981" rx="3" />
+                        <text x="40" y="15" fill="#065f46" font-size="10" font-weight="bold" text-anchor="middle">PRUNED!</text>
+                    </g>
+                    
+                    <!-- Efficiency Gain -->
+                    <rect x="80" y="200" width="160" height="40" fill="#ecfdf5" stroke="#10b981" rx="5" />
+                    <text x="160" y="215" fill="#065f46" font-size="12" font-weight="bold" text-anchor="middle">Efficiency Gain:</text>
+                    <text x="160" y="230" fill="#059669" font-size="14" font-weight="bold" text-anchor="middle">33% Less Duplication</text>
+                </svg>
+
+                <div class="memory-table">
+                    <h4 class="font-bold text-gray-700 mb-2">📈 Performance Metrics:</h4>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="p-2 bg-green-50 rounded text-center">
+                            <div class="text-green-700 font-bold">Bandwidth Saved</div>
+                            <div class="text-lg font-bold text-green-800">33%</div>
+                        </div>
+                        <div class="p-2 bg-blue-50 rounded text-center">
+                            <div class="text-blue-700 font-bold">Propagation Speed</div>
+                            <div class="text-lg font-bold text-blue-800">+15%</div>
+                        </div>
+                        <div class="p-2 bg-purple-50 rounded text-center">
+                            <div class="text-purple-700 font-bold">Memory Usage</div>
+                            <div class="text-lg font-bold text-purple-800">Low</div>
+                        </div>
+                        <div class="p-2 bg-orange-50 rounded text-center">
+                            <div class="text-orange-700 font-bold">Network Load</div>
+                            <div class="text-lg font-bold text-orange-800">-28%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Theory Integration Section -->
+    <div class="mt-8 p-6 bg-gradient-to-r from-purple-100 to-blue-100 rounded-xl border border-purple-200">
+        <h2 class="text-2xl font-bold text-purple-800 mb-4">🎮 Game Theory Integration</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h3 class="font-bold text-purple-700 mb-2">Strategic Interactions</h3>
+                <ul class="text-sm space-y-2">
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2">✓</span>
+                        <span><strong>Nash Equilibrium:</strong> No node can improve payoff by changing strategy unilaterally</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2">✓</span>
+                        <span><strong>Incentive Compatibility:</strong> Nodes motivated to follow protocol for better rewards</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-green-600 mr-2">✓</span>
+                        <span><strong>Bounded Rationality:</strong> Limited memory and local view constraints</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-bold text-purple-700 mb-2">Payoff Structure</h3>
+                <div class="text-sm space-y-2">
+                    <div class="p-2 bg-white rounded shadow">
+                        <strong>Utility =</strong> Network_Efficiency + Personal_Reward - Duplication_Cost
+                    </div>
+                    <div class="p-2 bg-white rounded shadow">
+                        <strong>Strategy:</strong> Tit-for-Tat with forgiveness and exploration
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- SVG Markers -->
+<svg style="position: absolute; width: 0; height: 0;">
+    <defs>
+        <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#ef4444" />
+        </marker>
+        <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L9,3 z" fill="#10b981" />
+        </marker>
+        <marker id="arrow-green-bold" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto">
+            <path d="M0,0 L0,8 L12,4 z" fill="#10b981" />
+        </marker>
+    </defs>
+</svg>
+
+</body>
+</html>
