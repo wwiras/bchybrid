@@ -101,11 +101,10 @@ class Node(gossip_pb2_grpc.GossipServiceServicer):
         if score_change != 0:
             self.reputation_score[reputation_key] = new_score
         
-        log_message = (f"{self.host} received penalty from {reporter_ip} for link to {penalized_ip} "
-                       f"at hop {wastage_hop}. Score: {current_score} -> {new_score}")
-        self._log_event(message_id, reporter_ip, time.time_ns(), None,
-                         None, 'penalty_received', log_message, wastage_hop, score_change=score_change)
-
+        # log_message = (f"{self.host} received penalty from {reporter_ip} for link to {penalized_ip} "
+        #                f"at hop {wastage_hop}. Score: {current_score} -> {new_score}")
+        # self._log_event(message_id, reporter_ip, time.time_ns(), None,
+        #                  None, 'penalty_received', log_message, wastage_hop, score_change=score_change)
         return gossip_pb2.Acknowledgment(details="Penalty recorded.")
     
     # --- RPC SERVICER: MESSAGE RECEIPT (Executed on the Receiver, Node B) ---
@@ -151,8 +150,11 @@ class Node(gossip_pb2_grpc.GossipServiceServicer):
 
             log_message = (f"{self.host} ignoring duplicate: {message} from {sender_id}. "
                            f"Sent penalty notification to {sender_ip_to_notify}.")
+            # self._log_event(message, sender_id, received_timestamp, None,
+            #                  incoming_link_latency, 'duplicate_notify', log_message, 
+            #                  incoming_round_count, score_change=0)
             self._log_event(message, sender_id, received_timestamp, None,
-                             incoming_link_latency, 'duplicate_notify', log_message, 
+                             incoming_link_latency, 'duplicate', log_message, 
                              incoming_round_count, score_change=0)
             # --------------------------------------------------------
             return gossip_pb2.Acknowledgment(details=f"Duplicate message ignored by ({self.host})")

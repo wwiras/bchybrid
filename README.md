@@ -26,3 +26,12 @@ $ docker buildx build --platform linux/amd64 -t wwiras/simsba:v1 --push .
 $ docker image prune -a
 ```
 
+### Creating Pods based on image name and tag 
+```python
+$ helm install simcn ./chartsim --set testType=default,totalNodes=25,image.tag=v1,image.name=wwiras/simsba --debug
+```
+
+### Uninstall Pods  
+```python
+$ helm uninstall simcn
+```
