@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package gossip;
+import "google/protobuf/empty.proto";
+
+message GossipMessage {
+  string message = 1;
+  string sender_id = 2;
+  int64 timestamp = 3;
+  double latency_ms = 4;
+  int32 round_count = 5;
+}
+
+message Acknowledgment {
+  string details = 1;
+}
+
+message PenaltyNotification {
+  string message_id = 1;
+  string penalized_neighbor_id = 2; // The IP of the duplicate receiver (e.g., Node B)
+  string reporter_node_id = 3;      // The IP of the node that detected the duplicate (Node B)
+  int32 hop_of_wastage = 4;         // The hop h where the duplicate occurred
+}
+
+service GossipService {
+  rpc SendMessage (GossipMessage) returns (Acknowledgment);
+  rpc UpdateNeighbors (google.protobuf.Empty) returns (Acknowledgment);
+  rpc NotifyPenalty (PenaltyNotification) returns (Acknowledgment); 
+}
