@@ -8,7 +8,7 @@ memory:
   limits: "150Mi"    # Default memory limits
 
 image:
-  name: wwiras/simcl
+  name: wwiras/simsba
   tag: v1 # (direct mail from k8sv2)
 
 totalNodes: 10       # Default value, can be overridden
